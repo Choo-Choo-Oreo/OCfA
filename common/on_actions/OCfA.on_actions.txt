@@ -1,0 +1,38 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			every_possible_country = {
+				IF = {
+					LIMIT = {
+						NOT = { has_dynamic_modifier = { modifier = OCfA_opereation_capacity_dynamic_modifier } }
+					}
+					add_dynamic_modifier = { modifier = OCfA_opereation_capacity_dynamic_modifier }
+				}
+				OCfA_calculate_battalion_capacity_formula = yes
+			}
+			#set_global_flag = { flag = OCfA_prevent_demobilization days = 730 }
+		}
+	}
+
+	on_weekly = { # on_monthly is to slow for the rapid change of unit's
+		effect = {
+			IF = {
+				LIMIT = {
+					NOT = { has_dynamic_modifier = { modifier = OCfA_opereation_capacity_dynamic_modifier } }
+				}
+				add_dynamic_modifier = { modifier = OCfA_opereation_capacity_dynamic_modifier }
+			}
+			OCfA_calculate_battalion_capacity_formula = yes
+		}
+	}
+
+	on_peace = {
+		effect = {
+			log = "[GetDateText]: [Root.GetName]: on_peace"
+			THIS = {
+				OCfA_calculate_battalion_capacity_formula = yes
+				set_country_flag = OCfA_allow_demobilization
+			}
+		}
+	}
+}
