@@ -7,6 +7,19 @@
 @OCfA_civ_weight = 1.0
 @OCfA_dockyard_weight = 0.5
 
+# --- BATTALION WEIGHTS ---
+@OCfA_weight_infantry = 0.8
+@OCfA_weight_marine = 1.0
+@OCfA_weight_marine_com = 1.0
+@OCfA_weight_mountaineers = 1.0
+@OCfA_weight_ranger = 1.0
+@OCfA_weight_paratrooper = 1.0
+@OCfA_weight_light_armor = 1.8
+@OCfA_weight_medium_armor = 2.0
+@OCfA_weight_heavy_armor = 2.2
+@OCfA_weight_motorized = 1.2
+@OCfA_weight_mechanized = 1.5
+
 # --- BASE MULTIPLIERS ---
 @industry_scaling_multiplier = 4.25
 @min_industry_factor = 0.15
@@ -24,11 +37,11 @@
 @OCfA_linear_divisor = 100
 
 OCfA_calculate_battalion_capacity_linear = {
-	# --- STEP 1: LINEAR SCALING ---
+	# --- LINEAR SCALING ---
 	set_temp_variable = { var = OCfA_curve_value value = OCfA_capacity_diff }
 	divide_temp_variable = { var = OCfA_curve_value value = @OCfA_linear_divisor } 
 
-	# --- STEP 2: RESTORE DIRECTION ---
+	# --- RESTORE DIRECTION ---
 	IF = {
 		LIMIT = { 
 			check_variable = { var = OCfA_capacity_diff value = 0 compare = less_than } 
@@ -39,18 +52,24 @@ OCfA_calculate_battalion_capacity_linear = {
 }
 
 OCfA_calculate_battalion_capacity_debug = {
-	set_variable = { var = OCfA_num_infantry          value = num_battalions_with_type@infantry }
-	set_variable = { var = OCfA_num_artillery         value = num_battalions_with_type@artillery }
-	set_variable = { var = OCfA_num_anti_tank         value = num_battalions_with_type@anti_tank }
-	set_variable = { var = OCfA_num_anti_air          value = num_battalions_with_type@anti_air }
-	set_variable = { var = OCfA_num_light_armor       value = num_battalions_with_type@light_armor }
-	set_variable = { var = OCfA_num_medium_armor      value = num_battalions_with_type@medium_armor }
-	set_variable = { var = OCfA_num_heavy_armor       value = num_battalions_with_type@heavy_armor }
-	set_variable = { var = OCfA_num_motorized         value = num_battalions_with_type@motorized }
-	set_variable = { var = OCfA_num_mechanized        value = num_battalions_with_type@mechanized }
+	set_variable = { var = OCfA_num_infantry		value = num_battalions_with_type@infantry }
+	set_variable = { var = OCfA_num_marine			value = num_battalions_with_type@marine }
+	set_variable = { var = OCfA_num_marine_com		value = num_battalions_with_type@marine_commando }
+	set_variable = { var = OCfA_num_mountaineers	value = num_battalions_with_type@mountaineers }
+	set_variable = { var = OCfA_num_ranger			value = num_battalions_with_type@ranger_battalion }
+	set_variable = { var = OCfA_num_paratrooper		value = num_battalions_with_type@paratrooper }
+	set_variable = { var = OCfA_num_artillery		value = num_battalions_with_type@artillery }
+	set_variable = { var = OCfA_num_anti_tank		value = num_battalions_with_type@anti_tank }
+	set_variable = { var = OCfA_num_anti_air		value = num_battalions_with_type@anti_air }
+	set_variable = { var = OCfA_num_light_armor		value = num_battalions_with_type@light_armor }
+	set_variable = { var = OCfA_num_medium_armor	value = num_battalions_with_type@medium_armor }
+	set_variable = { var = OCfA_num_heavy_armor		value = num_battalions_with_type@heavy_armor }
+	set_variable = { var = OCfA_num_motorized		value = num_battalions_with_type@motorized }
+	set_variable = { var = OCfA_num_mechanized		value = num_battalions_with_type@mechanized }
 
 	log = "[Root.GetTag] Army Stats: Total Divisions: [?num_divisions] | Manpower: [?deployed_army_manpower_k]k"
 	log = "    Infantry: [?OCfA_num_infantry] | Artillery: [?OCfA_num_artillery] | AT: [?OCfA_num_anti_tank] | AA: [?OCfA_num_anti_air]"
+	log = "    Marine: [?OCfA_num_marine] | Marine Com: [?OCfA_num_marine_com] | Mount: [?OCfA_num_mountaineers] | Rang: [?OCfA_num_ranger] | Para: [?OCfA_num_paratrooper]"
 	log = "    Light Armor: [?OCfA_num_light_armor] | Med Armor: [?OCfA_num_medium_armor] | OCfA_Heavy Armor: [?OCfA_num_heavy_armor] | Mot: [?OCfA_num_motorized] | Mech: [?OCfA_num_mechanized]"
 }
 
@@ -58,7 +77,7 @@ OCfA_calculate_battalion_capacity_formula = {
 	# --- INITIALIZE BASE VARIABLE ---
 	set_variable = { var = OCfA_base_units value = 0 }
 
-	# --- STEP 1: POPULATION CALCULATION ---
+	# --- STEP 1: POPULATION & STATES CALCULATION ---
 	# Calculates weighted population and adds to base units
 	set_variable = { var = OCfA_count_core value = 0 }
 	set_variable = { var = OCfA_pop_k_core value = 0 }
@@ -99,15 +118,12 @@ OCfA_calculate_battalion_capacity_formula = {
 	add_to_temp_variable = { var = OCfA_global_pop_mult value = modifier@OCfA_battalion_limit_pop_bonus }
 	multiply_variable = { var = OCfA_base_units value = OCfA_global_pop_mult }
 
-
-	# --- STEP 2: STATE COUNT CALCULATION ---
 	# Calculates weighted state count and adds to base units
 	set_variable = { var = OCfA_base_states value = num_owned_states }
 	multiply_variable = { var = OCfA_base_states value = @OCfA_state_weight }
 	add_to_variable = { var = OCfA_base_units value = OCfA_base_states } 
 
-
-	# --- STEP 3: FACTORY COUNT CALCULATION ---
+	# --- STEP 2: FACTORY COUNT CALCULATION ---
 	# Calculates weighted factories and applies the Industry Factor Ratio
 	set_variable = { var = OCfA_factory_points value = 0 } 
 
@@ -143,7 +159,7 @@ OCfA_calculate_battalion_capacity_formula = {
 	set_variable = { var = OCfA_calculated_battalion_capacity value = OCfA_base_units }
 	multiply_variable = { var = OCfA_calculated_battalion_capacity value = OCfA_industry_factor }
 
-	# --- STEP 4: ECONOMIC GAMERULE MULTIPLIERS ---
+	# --- STEP 3: ECONOMIC GAMERULE MULTIPLIERS ---
 	# Economic Mobilization Multiplier
 	set_variable = { var = OCfA_econ_efficiency_factor value = 1.0 }
 	IF = { 
@@ -176,7 +192,7 @@ OCfA_calculate_battalion_capacity_formula = {
 		set_variable = { var = OCfA_infra_strain value = 0 }
 	}
 
-	# --- STEP 5: FINAL ADJUSTMENTS & CLAMPING ---
+	# --- STEP 4: FINAL ADJUSTMENTS & CLAMPING ---
 	add_to_variable = { var = OCfA_calculated_battalion_capacity value = modifier@OCfA_battalion_limit_bonus }
 
 	IF = {
@@ -191,9 +207,59 @@ OCfA_calculate_battalion_capacity_formula = {
 	clamp_variable = { var = OCfA_calculated_battalion_capacity min = @OCfA_min_capacity max = @OCfA_max_capacity }
 	round_variable = OCfA_calculated_battalion_capacity
 
+	# --- STEP 5: CALCULATE BATTALION LOAD ---
+	IF = {
+		LIMIT = { has_game_rule = { rule = OCfA_weight_rule option = WEIGHT_ON } }
+		set_temp_variable = { var = OCfA_current_battalion_load value = 0 }
+
+		set_variable = { var = OCfA_bat_inf value = num_battalions_with_type@infantry }
+		multiply_variable = { var = OCfA_bat_inf value = @OCfA_weight_infantry }
+		add_to_temp_variable = { var = OCfA_current_battalion_load value = OCfA_bat_inf }
+
+		set_variable = { var = OCfA_bat_lar value = num_battalions_with_type@light_armor }
+		multiply_variable = { var = OCfA_bat_lar value = @OCfA_weight_light_armor }
+		add_to_temp_variable = { var = OCfA_current_battalion_load value = OCfA_bat_lar }
+
+		set_variable = { var = OCfA_bat_mar value = num_battalions_with_type@medium_armor }
+		multiply_variable = { var = OCfA_bat_mar value = @OCfA_weight_medium_armor }
+		add_to_temp_variable = { var = OCfA_current_battalion_load value = OCfA_bat_mar }
+
+		set_variable = { var = OCfA_bat_har value = num_battalions_with_type@heavy_armor }
+		multiply_variable = { var = OCfA_bat_har value = @OCfA_weight_heavy_armor }
+		add_to_temp_variable = { var = OCfA_current_battalion_load value = OCfA_bat_har }
+
+		set_variable = { var = OCfA_bat_mot value = num_battalions_with_type@motorized }
+		multiply_variable = { var = OCfA_bat_mot value = @OCfA_weight_motorized }
+		add_to_temp_variable = { var = OCfA_current_battalion_load value = OCfA_bat_mot }
+
+		set_variable = { var = OCfA_bat_mec value = num_battalions_with_type@mechanized }
+		multiply_variable = { var = OCfA_bat_mec value = @OCfA_weight_mechanized }
+		add_to_temp_variable = { var = OCfA_current_battalion_load value = OCfA_bat_mec }
+
+		# --- MISCELLANEOUS SHIPS ---
+		set_temp_variable = { var = OCfA_total_special_battalion value = num_battalions_with_type@infantry }
+		add_to_temp_variable = { var = OCfA_total_special_battalion value = num_battalions_with_type@light_armor }
+		add_to_temp_variable = { var = OCfA_total_special_battalion value = num_battalions_with_type@medium_armor }
+		add_to_temp_variable = { var = OCfA_total_special_battalion value = num_battalions_with_type@heavy_armor }
+		add_to_temp_variable = { var = OCfA_total_special_battalion value = num_battalions_with_type@motorized }
+		add_to_temp_variable = { var = OCfA_total_special_battalion value = num_battalions_with_type@mechanized }
+
+		set_variable = { var = OCfA_bat_misc value = num_battalions }
+		subtract_from_variable = { var = OCfA_bat_misc value = OCfA_total_special_battalion }
+		add_to_temp_variable = { var = OCfA_current_battalion_load value = OCfA_bat_misc }
+
+		set_variable = { var = OCfA_current_battalion_load value = OCfA_current_battalion_load }
+	}
+	ELSE_IF = {
+		multiply_variable = { var = OCfA_calculated_battalion_capacity value = 1.5 }
+		round_variable = OCfA_calculated_battalion_capacity
+
+		set_variable = { var = OCfA_current_battalion_load value = num_battalions }
+	}
+
 	# --- STEP 6: CURVE ---
 	set_temp_variable = { var = OCfA_capacity_diff value = OCfA_calculated_battalion_capacity }
-	subtract_from_temp_variable = { var = OCfA_capacity_diff value = num_battalions }
+	subtract_from_temp_variable = { var = OCfA_capacity_diff value = OCfA_current_battalion_load }
 	divide_temp_variable = { var = OCfA_capacity_diff value = OCfA_calculated_battalion_capacity }
 	multiply_temp_variable = { var = OCfA_capacity_diff value = 100 }
 
@@ -229,6 +295,13 @@ OCfA_calculate_battalion_capacity_formula = {
 	set_variable = { var = OCfA_mil_weight_value value = @OCfA_mil_weight }
 	set_variable = { var = OCfA_civ_weight_value value = @OCfA_civ_weight }
 	set_variable = { var = OCfA_doc_weight_value value = @OCfA_dockyard_weight }
+
+	set_variable = { var = OCfA_infantry_weight_value value = @OCfA_weight_infantry }
+	set_variable = { var = OCfA_light_armor_weight_value value = @OCfA_weight_light_armor }
+	set_variable = { var = OCfA_medium_armor_weight_value value = @OCfA_weight_medium_armor }
+	set_variable = { var = OCfA_heavy_armor_weight_value value = @OCfA_weight_heavy_armor }
+	set_variable = { var = OCfA_motorized_weight_value value = @OCfA_weight_motorized }
+	set_variable = { var = OCfA_mechanized_weight_value value = @OCfA_weight_mechanized }
 
 	set_variable = { var = OCfA_industry_scaling_multiplier_val value = @industry_scaling_multiplier }
 	set_variable = { var = OCfA_min_industry_factor_val value = @min_industry_factor }
