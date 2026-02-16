@@ -7,9 +7,9 @@
   OCfA_load_weighted: "§HArmy Composition Breakdown:§!\n - Infantry (§Yx§![?OCfA_infantry_weight_value|Y1]): [?num_battalions_with_type@infantry|G0] (Value: [?OCfA_bat_inf|Y0])\n - Light Armor (§Yx§![?OCfA_light_armor_weight_value|Y1]): [?num_battalions_with_type@light_armor|G0] (Value: [?OCfA_bat_lar|Y0])\n - Medium Armor (§Yx§![?OCfA_medium_armor_weight_value|Y1]): [?num_battalions_with_type@medium_armor|G0] (Value: [?OCfA_bat_mar|Y0])\n - Heavy Armor (§Yx§![?OCfA_heavy_armor_weight_value|Y1]): [?num_battalions_with_type@heavy_armor|G0] (Value: [?OCfA_bat_har|Y0])\n - Motorized (§Yx§![?OCfA_motorized_weight_value|Y1]): [?num_battalions_with_type@motorized|G0] (Value: [?OCfA_bat_mot|Y0])\n - Mechanized (§Yx§![?OCfA_mechanized_weight_value|Y1]): [?num_battalions_with_type@mechanized|G0] (Value: [?OCfA_bat_mec|Y0])\n - Miscellaneous (§Yx1.0§!): [?OCfA_bat_misc|G0]\n\nTotal Load"
   OCfA_load_standard: "Current Load"
 
-  OCfA_count_red: "§R[?num_battalions|0]§!"
-  OCfA_count_yellow: "§H[?num_battalions|0]§!"
-  OCfA_count_green: "§G[?num_battalions|0]§!"
+  OCfA_count_red: "§R[?OCfA_current_battalion_load|0]§!"
+  OCfA_count_yellow: "§H[?OCfA_current_battalion_load|0]§!"
+  OCfA_count_green: "§G[?OCfA_current_battalion_load|0]§!"
 
   OCfA_is_major_desc: "\n - Is Major: x[?OCfA_is_major_mult_value|Y2]"
   OCfA_is_major_none: ""
@@ -32,10 +32,10 @@
   OCfA_battalion_limit_bonus_desc: "\n - OCfA_battalion_limit_bonus [?modifier@OCfA_battalion_limit_bonus]"
   OCfA_battalion_limit_bonus_none: ""
 
-  OCfA_mob_breakdown_desc: "§HIndustrial Mobilization:§!\n - Current Consumer Goods: [?OCfA_current_cg_total|%Y]\n - Industrial Efficiency: [?OCfA_econ_efficiency_factor|%G]\n\n§LHigh consumer demand reduces the efficiency of your battalion capacity. Mobilize your economy to utilize your full battalion capacity for the front lines.§!\n\n"
+  OCfA_mob_breakdown_desc: "§HIndustrial Mobilization:§!\n - Current Consumer Goods: [?OCfA_current_cg_total|%Y]\n - Industrial Efficiency: [?OCfA_econ_efficiency_factor|%G]\n\n§LHigh your consumer goods demand reduces the efficiency of your battalion capacity. Mobilize your economy to utilize your full battalion capacity for the front lines.§!\n\n"
   OCfA_mob_disabled_desc: ""
 
-  OCfA_upkeep_desc: "§HMilitary-Industrial Complex Upkeep:§!\n - Strain Factor: [?OCfA_infra_strain|Y2]\n\n§LThe sheer scale of your military-industrial complex creates administrative friction. Your efficiency is adjusted by this factor to simulate the cost of maintaining extensive military economy.§!\n\n"
+  OCfA_upkeep_desc: "§HMilitary-Industrial Complex Upkeep:§!\n - Strain Factor: [?OCfA_infra_strain|Y2]\n\n§LThe sheer scale of your military-industrial complex creates administrative friction. Your efficiency is divided by this factor to simulate the cost of maintaining extensive military economy.§!\n\n"
   OCfA_upkeep_none: ""
 
   OCfA_RULE_WEIGHTING: "Battalion Weighting"

@@ -1,6 +1,6 @@
 OCfA_battalion_limiter = {
 	enable = {
-		check_variable = { OCfA_current_num_battalions > OCfA_calculated_battalion_capacity }
+		check_variable = { OCfA_current_battalion_load > OCfA_calculated_battalion_capacity }
 	}
 
 	abort_when_not_enabled = yes

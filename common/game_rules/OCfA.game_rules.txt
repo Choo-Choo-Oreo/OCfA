@@ -73,4 +73,3 @@ OCfA_strain_rule = {
 		allow_achievements = yes
 	}
 }
-
