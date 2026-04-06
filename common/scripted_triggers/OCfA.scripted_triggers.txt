@@ -1,3 +1,22 @@
 is_OCfA_enabled = {
     has_global_flag = is_OCfA_enabled
 }
+
+OCfA_has_war_economy = {
+    OR = {
+        has_idea = low_economic_mobilisation
+        has_idea = partial_economic_mobilisation
+        has_idea = war_economy
+        has_idea = tot_economic_mobilisation
+    }
+}
+
+OCfA_has_war_conscription = {
+    OR = {
+        has_idea = limited_conscription
+        has_idea = extensive_conscription
+        has_idea = service_by_requirement
+        has_idea = all_adults_serve
+        has_idea = scraping_the_barrel
+    }
+}
