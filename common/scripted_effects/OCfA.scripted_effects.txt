@@ -114,8 +114,8 @@ OCfA_calculate_battalion_capacity_formula = {
 	add_to_variable = { var = OCfA_base_units value = OCfA_non_core_pop }
 
 	# Apply global population modifiers
-	set_temp_variable = { var = OCfA_global_pop_mult value = 1.0 }
-	add_to_temp_variable = { var = OCfA_global_pop_mult value = modifier@OCfA_battalion_limit_pop_bonus }
+	set_variable = { var = OCfA_global_pop_mult value = 1.0 }
+	add_to_variable = { var = OCfA_global_pop_mult value = modifier@OCfA_battalion_limit_pop_bonus }
 	multiply_variable = { var = OCfA_base_units value = OCfA_global_pop_mult }
 
 	# Calculates weighted state count and adds to base units
@@ -139,8 +139,8 @@ OCfA_calculate_battalion_capacity_formula = {
 	multiply_variable = { var = OCfA_nav_dockyards value = @OCfA_dockyard_weight } 
 	add_to_variable = { var = OCfA_factory_points value = OCfA_nav_dockyards }
 
-	set_temp_variable = { var = OCfA_factory_mult value = 1.0 }
-	add_to_temp_variable = { var = OCfA_factory_mult value = modifier@OCfA_battalion_limit_factory_bonus }
+	set_variable = { var = OCfA_factory_mult value = 1.0 }
+	add_to_variable = { var = OCfA_factory_mult value = modifier@OCfA_battalion_limit_factory_bonus }
 	multiply_variable = { var = OCfA_factory_points value = OCfA_factory_mult }
 
 	# Industry Factor Ratio (Scaling)
