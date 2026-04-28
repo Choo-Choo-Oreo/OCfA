@@ -94,5 +94,5 @@ dependencies={
 	"*UMC* Technology Completed"
 	"*UMC* Generic Completed"
 }
-supported_version="1.17.*"
+supported_version="1.18.*"
 path="mod/OCfA"
